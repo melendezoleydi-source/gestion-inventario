@@ -51,3 +51,21 @@ npm run build
 Ejecutar en producción:
 
 npm run start:prod
+
+## Documentación de la API
+
+La documentación de la API está disponible mediante Swagger:
+
+http://localhost:3000/api/docs
+
+Desde Swagger se pueden consultar y probar los endpoints de la API REST.
+
+## Ejecución con Docker
+
+El proyecto está completamente dockerizado.
+
+Desde la raíz del proyecto se puede iniciar con:
+
+```bash
+docker compose up -d --build
+```
