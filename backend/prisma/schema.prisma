@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Categoria {
+  id      Int      @id @default(autoincrement())
+  nombre  String
+  equipos Equipo[]
+}
+
+model Marca {
+  id      Int      @id @default(autoincrement())
+  nombre  String
+  equipos Equipo[]
+}
+
+model Proveedor {
+  id      Int      @id @default(autoincrement())
+  nombre  String
+  telefono String
+  email   String
+  equipos Equipo[]
+}
+
+model Equipo {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  descripcion String?
+  estado      String   @default("Operativo")
+  numeroSerie String?  @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categoriaId Int?
+  categoria   Categoria? @relation(fields: [categoriaId], references: [id])
+
+  marcaId Int?
+  marca   Marca? @relation(fields: [marcaId], references: [id])
+
+  proveedorId Int?
+  proveedor   Proveedor? @relation(fields: [proveedorId], references: [id])
+
+  almacenId Int?
+  almacen   Almacen? @relation(fields: [almacenId], references: [id])
+}
+
+model Almacen {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  ubicacion String?
+  createdAt DateTime @default(now())
+
+  equipos Equipo[]
+}
+
+model Rol {
+  id       Int       @id @default(autoincrement())
+  nombre   String    @unique
+  usuarios Usuario[]
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  rolId Int
+  rol   Rol @relation(fields: [rolId], references: [id])
+}
